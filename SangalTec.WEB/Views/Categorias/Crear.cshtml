@@ -1,0 +1,49 @@
+﻿@model SangalTec.Models.Entities.Categoria;
+
+
+
+<div class="container p-5">
+
+    <h1 class="text-center">@ViewBag.Titulo</h1>
+    <form id="formulario" asp-action="Crear" autocomplete="off">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Nombre" class="crontrol-label"></label>
+            <input asp-for="Nombre" class="form-control" placeholder="Ingrese el nombre de la categoría" />
+            <span asp-validation-for="Nombre" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col">
+                    <button type="submit" class="btn btn-primary form-control" id="submit-all"> Crear</button>
+                </div>
+                <div class="col">
+                    <a asp-action="Index" class="btn btn-success form-control">Volver a lista</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts{
+    <script>
+    @if(TempData["Accion"] != null && TempData["Accion"].ToString().Equals("Validacion"))
+            {
+                <text>
+        alertify.set('notifier', 'position', 'top-right');
+        alertify.warning('@TempData["Mensaje"]');
+                </text>
+            }
+    </script>
+    <script>
+        var submitButton = document.querySelector("#submit-all");
+        submitButton.addEventListener("click", function() {
+            if (!$("#formulario").valid()) {
+        alertify.set('notifier', 'position', 'top-right');
+        alertify.warning('Debe ingresar todos los campos');
+            }
+        })
+    </script>
+
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

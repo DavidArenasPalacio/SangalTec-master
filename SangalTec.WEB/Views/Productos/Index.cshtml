@@ -1,0 +1,72 @@
+﻿@model IEnumerable<SangalTec.Models.Entities.Producto>;
+
+@section Styles{}
+
+<div class="content pt-5">
+    <div class="container-fluid">
+        <div class="table-responsive">
+            <div class="row  mb-5">
+                <div class="col-6">
+                    <h2 class="text-primary">@ViewBag.Titulo</h2>
+                </div>
+                <div class="col-6 text-right">
+                    <a asp-action="Crear" class="btn btn-primary"><i class="fas fa-plus"> Crear nuevo Producto</i></a>
+                </div>
+            </div>
+            <table class="table table-striped" id="tabla">
+                <thead>
+                    <tr class="text-center">
+                        <th scope="col" class="text-center">@Html.DisplayNameFor(model => model.ProductoId)</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.Nombre)</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.UrlImagen)</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.Cantidad)</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.Precio)</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.CategoriaId)</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.Estado)</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var producto in Model)
+                    {
+                        <tr class="text-center">
+                            <th scope="row">@producto.ProductoId</th>
+                            <td>@producto.Nombre</td>
+                            <td><img src="../@producto.UrlImagen" width="100px" height="50px"></td>
+                            <td>@producto.Cantidad</td>
+                            <td>@producto.Precio</td>
+                            <td>@producto.Categoria.Nombre</td>
+                            @if (producto.Estado)
+                            {
+                                <td><span class="bg-blue">Disponible</span></td>
+                            }
+                            else
+                            {
+                                <td><span class="bg-danger">No disponible</span></td>
+                            }
+                            <td>
+                                <a class="btn btn-success" asp-action="Editar"><i title="Editar" class="fas fa-edit"></i></a>
+                                <a class="btn btn-primary" asp-action="Detalle"><i class="fas fa-search"></i></a>
+                                <a class="btn btn-danger" asp-action="Editar"><i title="Eliminar" class="fas fa-trash-alt"></i></a>
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@section Scripts{
+
+    <script src="~/js/tabla.js"></script>
+    <script>
+    @if(TempData["Accion"] != null && TempData["Accion"].ToString().Equals("Guardar"))
+            {
+                <text>
+        alertify.set('notifier', 'position', 'top-right');
+        alertify.success('@TempData["Mensaje"]');
+                </text>
+            }
+    </script>
+}
